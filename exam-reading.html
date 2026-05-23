@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Section II: Reading — HELT</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+body{user-select:none;}
+.r-layout{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;align-items:start;}
+.sticky-passage{position:sticky;top:96px;}
+@media(max-width:700px){.r-layout{grid-template-columns:1fr;}.sticky-passage{position:static;}}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-title"><strong>HELT</strong><span>Section II — Reading</span></div>
+  </div>
+  <div class="h-center">📖 Reading · 25 Marks</div>
+  <div class="h-right"><div class="h-name" id="hdr-name">—</div><div class="h-id" id="hdr-id">—</div></div>
+</header>
+
+<div class="t-bar">
+  <div class="t-section"><div class="t-section-dot"></div>Section II of IV — Reading Comprehension</div>
+  <div class="t-timer"><div class="t-label">Time Remaining</div><div class="t-value" id="t-val">25:00</div></div>
+  <div class="t-info">Q <span id="q-cur">1</span> of <span id="q-tot">5</span></div>
+</div>
+<div class="t-progress"><div class="t-progress-fill" id="t-fill" style="width:100%;"></div></div>
+
+<div class="wrap-w">
+  <div class="steps">
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Register</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Rules</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Writing</div></div>
+    <div class="step active"><div class="step-dot">4</div><div class="step-lbl">Reading</div></div>
+    <div class="step"><div class="step-dot">5</div><div class="step-lbl">Listening</div></div>
+    <div class="step"><div class="step-dot">6</div><div class="step-lbl">Speaking</div></div>
+    <div class="step"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <!-- HEADER CARD -->
+  <div class="card mb3" style="border-top:3px solid var(--gold);padding:1.2rem 1.6rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.7rem;">
+      <div><div class="s-label">Section II</div><div style="font-size:1.1rem;font-family:var(--font-d);color:var(--ink);">Reading Comprehension</div><div style="font-size:.8rem;color:var(--muted);">Answer all 5 questions · One at a time · No going back.</div></div>
+      <div style="display:flex;gap:.5rem;"><span class="badge badge-gold">25 Marks</span><span class="badge badge-ink">5 × 5 pts</span></div>
+    </div>
+    <div class="q-dots mt2" id="q-dots"></div>
+  </div>
+
+  <div class="r-layout">
+    <!-- PASSAGE -->
+    <div class="sticky-passage">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="background:var(--ink);color:var(--gold);font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.65rem 1.2rem;">📄 Reading Passage</div>
+        <div class="passage" id="passage-text" style="max-height:480px;border:none;border-radius:0;"></div>
+      </div>
+      <div class="alert alert-gold mt1" style="font-size:.78rem;"><span class="alert-icon">💡</span><div>Read the passage as many times as needed. Scroll to review it while answering.</div></div>
+    </div>
+
+    <!-- QUESTIONS -->
+    <div>
+      <div id="q-container"></div>
+      <div id="done-box" style="display:none;">
+        <div class="card card-dark tc">
+          <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+          <div style="font-family:var(--font-d);font-size:1.2rem;color:var(--gold);">Reading Complete</div>
+          <p style="color:rgba(255,255,255,.6);font-size:.86rem;margin:1rem 0;">All 5 questions answered. Proceeding to Listening…</p>
+          <button class="btn btn-gold" id="go-listen">Continue to Listening →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer no-print"><strong>HELT</strong> · Section II: Reading</footer>
+<div id="loading"><div class="spin"></div><p>Saving answers…</p></div>
+
+<script src="js/utils.js"></script>
+<script src="js/questions.js"></script>
+<script>
+const cand=getCandidate();
+if(!cand.fullName||!S.get('examStarted')) window.location.href='index.html';
+lockExam();
+startScreenRecording();
+document.getElementById('hdr-name').textContent=cand.fullName;
+document.getElementById('hdr-id').textContent=cand.examId;
+
+const qSet=getQSet();
+const Qs=qSet.reading.questions;
+document.getElementById('q-tot').textContent=Qs.length;
+document.getElementById('passage-text').textContent=qSet.reading.passage;
+
+// Build nav dots
+const dotsEl=document.getElementById('q-dots');
+Qs.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='q-dot'+(i===0?' cur':'');
+  d.id=`dot-${i}`; d.textContent=i+1; dotsEl.appendChild(d);
+});
+
+let cur=0;
+const answers=new Array(Qs.length).fill(null);
+
+function renderQ(idx){
+  document.getElementById('q-cur').textContent=idx+1;
+  Qs.forEach((_,i)=>{
+    const d=document.getElementById(`dot-${i}`);
+    d.className='q-dot'+(answers[i]!==null?' ans':'')+(i===idx?' cur':'');
+  });
+  const q=Qs[idx];
+  document.getElementById('q-container').innerHTML=`
+    <div class="card">
+      <div class="s-label">Question ${idx+1} of ${Qs.length}</div>
+      <div style="font-size:1rem;color:var(--text);line-height:1.65;margin-bottom:1.2rem;font-weight:500;">${q.text}</div>
+      <div class="mcq" id="mcq">
+        ${q.options.map((o,oi)=>`
+          <label class="mcq-opt" id="o${idx}-${oi}">
+            <input type="radio" name="rq${idx}" value="${oi}"/>
+            <span class="opt-k">${String.fromCharCode(65+oi)}</span>
+            <span style="line-height:1.5;">${o}</span>
+          </label>`).join('')}
+      </div>
+      <div class="mt3">
+        <button class="btn btn-gold btn-full" id="next-btn" disabled>
+          ${idx<Qs.length-1?'Next Question →':'Submit Reading →'}
+        </button>
+      </div>
+      <p style="font-size:.72rem;color:var(--err);margin-top:.5rem;text-align:center;">⚠ You cannot return to a previous question.</p>
+    </div>`;
+
+  document.querySelectorAll('.mcq-opt').forEach(lbl=>{
+    lbl.addEventListener('click',()=>{
+      const v=parseInt(lbl.querySelector('input').value);
+      document.querySelectorAll('.mcq-opt').forEach(l=>l.classList.remove('sel'));
+      lbl.classList.add('sel'); lbl.querySelector('input').checked=true;
+      answers[idx]=v;
+      document.getElementById('next-btn').disabled=false;
+    });
+  });
+
+  document.getElementById('next-btn').addEventListener('click',()=>{
+    document.getElementById(`dot-${idx}`).classList.add('ans');
+    if(idx<Qs.length-1){ cur++; renderQ(cur); }
+    else finish();
+  });
+}
+renderQ(0);
+
+// TIMER
+const T=new Timer({
+  sec:25*60, warnAt:180,
+  onTick:updateTimerUI,
+  onEnd:()=>finish(true)
+});
+T.start();
+
+function finish(expired=false){
+  T.stop();
+  let correct=0;
+  answers.forEach((a,i)=>{ if(a===Qs[i].answer) correct++; });
+  const score=correct*5;
+
+  // Save score INTERNALLY — not shown to candidate
+  S.set('rScore', score);
+  S.set('rCorrect', correct);
+  S.set('rAnswers', answers);
+
+  document.getElementById('q-container').style.display='none';
+  const box=document.getElementById('done-box'); box.style.display='block';
+  // Show NO score info to candidate
+  const goBtn=document.getElementById('go-listen');
+  let cd=5;
+  const iv=setInterval(()=>{
+    cd--;
+    goBtn.textContent=`Continue to Listening (${cd}s) →`;
+    if(cd<=0){ clearInterval(iv); window.location.href='exam-listening.html'; }
+  },1000);
+  goBtn.addEventListener('click',()=>{ clearInterval(iv); window.location.href='exam-listening.html'; });
+}
+</script>
+</body>
+</html>

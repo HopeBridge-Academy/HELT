@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Section I: Writing — HELT</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+body{user-select:none;}
+.writing-area{user-select:text;}
+.writing-area textarea{user-select:text;}
+.criteria{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1rem;}
+.crit{background:var(--ivory);border:1px solid var(--border-2);border-radius:var(--r);padding:.7rem;text-align:center;font-size:.78rem;}
+.crit .ci{font-size:1.1rem;margin-bottom:.2rem;}
+.crit .cn{font-weight:700;color:var(--ink);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;}
+.crit .cd{font-size:.67rem;color:var(--muted);margin-top:.1rem;}
+.prompt-box{background:var(--ink);color:var(--white);border-radius:var(--r);padding:1.3rem 1.6rem;margin-bottom:1.2rem;border-left:3px solid var(--gold);}
+.prompt-box .pl{font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:.4rem;}
+.prompt-box .pt{font-size:.93rem;line-height:1.7;color:rgba(255,255,255,.88);}
+@media(max-width:580px){.criteria{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-title"><strong>HELT</strong><span>Section I — Writing</span></div>
+  </div>
+  <div class="h-center" style="display:flex;align-items:center;gap:.5rem;"><span style="color:var(--gold);">✍️</span> Writing · 25 Marks</div>
+  <div class="h-right"><div class="h-name" id="hdr-name">—</div><div class="h-id" id="hdr-id">—</div></div>
+</header>
+
+<!-- TIMER -->
+<div class="t-bar">
+  <div class="t-section"><div class="t-section-dot"></div>Section I of IV — Writing</div>
+  <div class="t-timer"><div class="t-label">Time Remaining</div><div class="t-value" id="t-val">30:00</div></div>
+  <div class="t-info">Set <span id="set-lbl">—</span> &nbsp;|&nbsp; Tabs: <span id="tab-ct">0</span></div>
+</div>
+<div class="t-progress"><div class="t-progress-fill" id="t-fill" style="width:100%;"></div></div>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Register</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Rules</div></div>
+    <div class="step active"><div class="step-dot">3</div><div class="step-lbl">Writing</div></div>
+    <div class="step"><div class="step-dot">4</div><div class="step-lbl">Reading</div></div>
+    <div class="step"><div class="step-dot">5</div><div class="step-lbl">Listening</div></div>
+    <div class="step"><div class="step-dot">6</div><div class="step-lbl">Speaking</div></div>
+    <div class="step"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <div class="card mb3" style="border-top:3px solid var(--gold);">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.8rem;margin-bottom:.8rem;">
+      <div><div class="s-label">Section I</div><div class="s-title">Writing Task</div><div class="s-sub">Write a well-organised, coherent response. Both AI and human examiners will assess your work.</div></div>
+      <div style="text-align:right;"><span class="badge badge-gold">25 Marks</span><div style="font-size:.72rem;color:var(--muted);margin-top:.3rem;">30 minutes</div></div>
+    </div>
+    <div class="criteria">
+      <div class="crit"><div class="ci">🎯</div><div class="cn">Task</div><div class="cd">Relevance & examples</div></div>
+      <div class="crit"><div class="ci">🔗</div><div class="cn">Coherence</div><div class="cd">Organisation & flow</div></div>
+      <div class="crit"><div class="ci">🔤</div><div class="cn">Vocabulary</div><div class="cd">Range & accuracy</div></div>
+      <div class="crit"><div class="ci">📐</div><div class="cn">Grammar</div><div class="cd">Complexity & control</div></div>
+    </div>
+  </div>
+
+  <!-- WRITING AREA -->
+  <div class="card writing-area">
+    <div class="prompt-box">
+      <div class="pl">📋 Writing Prompt</div>
+      <div class="pt" id="prompt-text">Loading…</div>
+    </div>
+
+    <div class="wtb">
+      <span>Write your response below</span>
+      <span>Words: <strong id="wc-num">0</strong> / <span id="wc-min">220</span> minimum</span>
+    </div>
+    <textarea class="fi fta wtb-area" id="writing-ta" spellcheck="true" placeholder="Begin your response here…"></textarea>
+    <div class="wc-bar" id="wc-msg">Write at least <span id="wc-need">220</span> words.</div>
+
+    <div class="alert alert-gold mt2">
+      <span class="alert-icon">⚠️</span>
+      <div>Once submitted, your response cannot be edited. Your writing will be sent to an AI system and human examiner for scoring. Ensure you are satisfied before submitting.</div>
+    </div>
+
+    <button class="btn btn-gold btn-lg btn-full mt2" id="submit-w">Submit Writing & Continue →</button>
+  </div>
+</div>
+
+<footer class="footer no-print"><strong>HELT</strong> · Section I: Writing</footer>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-bg hidden" id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-title">⚠️ Confirm Submission</div>
+    <p style="font-size:.86rem;color:var(--muted);margin-bottom:1.2rem;">You are about to submit your writing. <strong>This cannot be undone.</strong> You cannot return to this section.</p>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap;">
+      <button class="btn btn-gold" id="confirm-yes">Yes — Submit Writing</button>
+      <button class="btn btn-outline" id="confirm-no">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="loading"><div class="spin"></div><p id="load-msg">Submitting writing response…</p></div>
+
+<script src="js/utils.js"></script>
+<script src="js/questions.js"></script>
+<script>
+const cand = getCandidate();
+if (!cand.fullName||!S.get('examStarted')) window.location.href='index.html';
+lockExam();
+startScreenRecording(); // re-attach on page load (after navigation)
+
+const qSet = getQSet();
+document.getElementById('hdr-name').textContent = cand.fullName;
+document.getElementById('hdr-id').textContent   = cand.examId;
+document.getElementById('set-lbl').textContent  = qSet.id;
+document.getElementById('prompt-text').textContent = qSet.writing.prompt;
+document.getElementById('wc-min').textContent   = qSet.writing.minWords;
+document.getElementById('wc-need').textContent  = qSet.writing.minWords;
+
+const ta = document.getElementById('writing-ta');
+const wcNum = document.getElementById('wc-num');
+const wcMsg = document.getElementById('wc-msg');
+
+ta.addEventListener('input', ()=>{
+  const wc = wordCount(ta.value);
+  wcNum.textContent = wc;
+  const need = qSet.writing.minWords;
+  if (wc >= need) { wcMsg.textContent=`✅ ${wc} words — minimum reached.`; wcMsg.className='wc-bar ok'; }
+  else            { wcMsg.textContent=`${need-wc} more words needed.`;      wcMsg.className='wc-bar warn'; }
+  document.getElementById('tab-ct').textContent = S.get('tabSwitches',0);
+});
+
+// TIMER
+const T = new Timer({
+  sec: 30*60, warnAt: 300,
+  onTick: updateTimerUI,
+  onEnd: ()=>submitWriting(true)
+});
+T.start();
+
+document.getElementById('submit-w').addEventListener('click', ()=>{
+  const wc = wordCount(ta.value);
+  if (wc < qSet.writing.minWords) {
+    if (!confirm(`Your response is ${wc} words — below the ${qSet.writing.minWords}-word minimum. This will affect your Task Achievement score. Submit anyway?`)) return;
+  }
+  document.getElementById('confirm-modal').classList.remove('hidden');
+});
+
+document.getElementById('confirm-no').addEventListener('click',()=>document.getElementById('confirm-modal').classList.add('hidden'));
+document.getElementById('confirm-yes').addEventListener('click',()=>{ document.getElementById('confirm-modal').classList.add('hidden'); submitWriting(false); });
+
+async function submitWriting(expired) {
+  T.stop();
+  const text = ta.value.trim();
+  const wc   = wordCount(text);
+  S.set('writingText', text);
+  S.set('writingWC',   wc);
+
+  showLoad('AI scoring your writing…');
+
+  // AI pre-score (internal only — never shown to candidate)
+  const aiResult = await aiScoreWriting(qSet.writing.prompt, text, wc);
+  S.set('writingAIScore', aiResult); // stored internally for examiner
+
+  document.getElementById('load-msg').textContent = 'Sending to examiner…';
+
+  const c = cand;
+  const msg = [
+    candidateBlock(c),
+    `✍️ *WRITING SUBMISSION — Set ${qSet.id}*`,
+    ``,
+    `*Prompt:* _${qSet.writing.prompt.slice(0,200)}…_`,
+    ``,
+    `*Response (${wc} words):*`,
+    text.length>3500 ? text.slice(0,3500)+'…[truncated]' : text,
+    ``,
+    `🤖 *AI Pre-Score:* ${aiResult.score??'—'}/25 | Band: ${aiResult.band??'—'}`,
+    `📝 AI Note: ${aiResult.comments??'—'}`,
+    `⏱️ Timer expired: ${expired?'Yes':'No'}`,
+  ].join('\n');
+
+  try {
+    await tgText(msg);
+    if (c.selfie) await tgPhoto(c.selfie, `🪪 ID Selfie — ${c.fullName} (${c.examId})`);
+  } catch(e){ console.warn('TG fail',e); }
+
+  hideLoad();
+  window.location.href = 'exam-reading.html';
+}
+</script>
+</body>
+</html>

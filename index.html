@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Register — HELT · HopeBridge English Language Test</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.2rem;}
+.stat{background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.18);border-radius:var(--r);padding:.9rem;text-align:center;}
+.stat .sv{font-family:var(--font-d);font-size:1.4rem;color:var(--gold);font-weight:700;}
+.stat .sl{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);font-weight:600;margin-top:.2rem;}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img" id="logo-wrap">
+      <!-- Replace src with your logo file. If no image, the text fallback shows. -->
+      <img src="assets/logo.png" alt="HELT Logo" onerror="this.style.display='none';document.getElementById('logo-txt').style.display='flex';" style="width:100%;height:100%;object-fit:contain;"/>
+      <div class="logo-placeholder" id="logo-txt" style="display:none;">H</div>
+    </div>
+    <div class="h-title">
+      <strong>HELT</strong>
+      <span>HopeBridge English Language Test</span>
+    </div>
+  </div>
+  <div class="h-center">Candidate Registration</div>
+  <div class="h-right">
+    <div>Version 2025.1</div>
+    <div style="color:var(--gold);font-size:.67rem;">CEFR-Aligned</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- STEPS -->
+  <div class="steps">
+    <div class="step active"><div class="step-dot">1</div><div class="step-lbl">Register</div></div>
+    <div class="step"><div class="step-dot">2</div><div class="step-lbl">Rules</div></div>
+    <div class="step"><div class="step-dot">3</div><div class="step-lbl">Writing</div></div>
+    <div class="step"><div class="step-dot">4</div><div class="step-lbl">Reading</div></div>
+    <div class="step"><div class="step-dot">5</div><div class="step-lbl">Listening</div></div>
+    <div class="step"><div class="step-dot">6</div><div class="step-lbl">Speaking</div></div>
+    <div class="step"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-band mb3">
+    <div class="chip">🌐 CEFR-Aligned · 4-Skill Assessment · International Standard</div>
+    <h2>Candidate Registration</h2>
+    <p>All information must match your official identity document. Your details will appear on the certificate. All fields are mandatory.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="sv">100</div><div class="sl">Total Marks</div></div>
+      <div class="stat"><div class="sv">~90</div><div class="sl">Minutes</div></div>
+      <div class="stat"><div class="sv">4</div><div class="sl">Skills</div></div>
+      <div class="stat"><div class="sv">$5</div><div class="sl">Exam Fee</div></div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold mb2">
+    <span class="alert-icon">⚠️</span>
+    <div><strong>Important:</strong> Your information is verified and permanently recorded. Certificates are issued based on the details provided here. A live selfie is required for identity verification.</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card">
+    <div class="s-label">Personal Information</div>
+    <div class="s-title" style="font-size:1.3rem;">Candidate Details</div>
+    <div class="divider"></div>
+
+    <form id="reg-form" novalidate>
+      <div class="g2">
+        <div class="fg">
+          <label class="fl" for="fullName">Full Name <span class="req">*</span></label>
+          <input class="fi" type="text" id="fullName" name="fullName" placeholder="As on your identity document" required autocomplete="name"/>
+          <div class="ferr"></div>
+        </div>
+        <div class="fg">
+          <label class="fl" for="fatherName">Father's Name <span class="req">*</span></label>
+          <input class="fi" type="text" id="fatherName" name="fatherName" placeholder="Father's full name" required autocomplete="off"/>
+          <div class="ferr"></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="fg">
+          <label class="fl" for="email">Email Address <span class="req">*</span></label>
+          <input class="fi" type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email"/>
+          <div class="ferr"></div>
+          <div style="font-size:.74rem;color:var(--muted);margin-top:.3rem;">📜 Certificate delivered to this address.</div>
+        </div>
+        <div class="fg">
+          <label class="fl" for="idNumber">National ID / Tazkira No. <span class="req">*</span></label>
+          <input class="fi" type="text" id="idNumber" name="idNumber" placeholder="e.g. 123456789" required data-min="5" autocomplete="off"/>
+          <div class="ferr"></div>
+          <div style="font-size:.74rem;color:var(--muted);margin-top:.3rem;">🪪 Exactly as printed on your document.</div>
+        </div>
+      </div>
+
+      <!-- SELFIE -->
+      <div class="fg">
+        <label class="fl">Identity Selfie <span class="req">*</span></label>
+        <div class="cam-box">
+          <p style="font-size:.83rem;color:var(--muted);margin-bottom:1rem;">Look directly at the camera. Ensure your face is fully visible and well-lit.</p>
+          <video id="selfie-video" autoplay playsinline></video>
+          <canvas id="selfie-canvas" width="480" height="360" style="display:none;"></canvas>
+          <img id="selfie-preview" alt="Identity selfie preview"/>
+          <div id="cam-msg" style="font-size:.85rem;color:var(--muted);">📷 Click <em>Open Camera</em> to begin.</div>
+          <div class="cam-controls">
+            <button type="button" class="btn btn-primary" id="openCam">📷 Open Camera</button>
+            <button type="button" class="btn btn-gold hidden" id="captureSelfie">📸 Capture</button>
+            <button type="button" class="btn btn-outline hidden" id="retakeSelfie">🔄 Retake</button>
+          </div>
+          <input type="file" id="selfie-file" accept="image/*" capture="user" style="display:none;"/>
+          <button type="button" class="btn btn-outline mt2" id="uploadSelfie" style="font-size:.78rem;padding:.45rem 1rem;">Or upload photo</button>
+        </div>
+        <div class="ferr" id="selfie-err"></div>
+      </div>
+
+      <!-- CONSENT -->
+      <div style="background:var(--ivory);border:1.5px solid var(--border-2);border-radius:var(--r);padding:1.2rem 1.4rem;margin-top:.5rem;">
+        <div style="font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.06em;">Declaration</div>
+        <div class="chk-row">
+          <input type="checkbox" id="consent" required/>
+          <label for="consent">I confirm all information is accurate. I understand that false information results in disqualification. I consent to my photo and exam data being securely stored for verification and certification purposes.</label>
+        </div>
+        <div class="chk-row">
+          <input type="checkbox" id="consent2" required/>
+          <label for="consent2">I understand this exam includes screen recording and microphone monitoring throughout all sections for integrity purposes.</label>
+        </div>
+        <div class="ferr" id="consent-err"></div>
+      </div>
+
+      <div class="mt3">
+        <button type="submit" class="btn btn-gold btn-lg btn-full">Continue to Rules & Instructions →</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- EXAM OVERVIEW -->
+  <div class="card card-dark">
+    <div style="font-family:var(--font-d);font-size:1.1rem;color:var(--gold);margin-bottom:.9rem;">Examination Overview</div>
+    <table class="tbl">
+      <tr style="background:transparent;"><td style="border:none;padding:.4rem .6rem;font-size:.84rem;color:rgba(255,255,255,.7);">✍️ Writing</td><td style="border:none;color:rgba(255,255,255,.7);font-size:.84rem;">25 marks · 30 min · Examiner review</td></tr>
+      <tr style="background:transparent;"><td style="border:none;padding:.4rem .6rem;font-size:.84rem;color:rgba(255,255,255,.7);">📖 Reading</td><td style="border:none;color:rgba(255,255,255,.7);font-size:.84rem;">25 marks · 25 min · Auto-graded</td></tr>
+      <tr style="background:transparent;"><td style="border:none;padding:.4rem .6rem;font-size:.84rem;color:rgba(255,255,255,.7);">🎧 Listening</td><td style="border:none;color:rgba(255,255,255,.7);font-size:.84rem;">25 marks · 20 min · Auto-graded</td></tr>
+      <tr style="background:transparent;"><td style="border:none;padding:.4rem .6rem;font-size:.84rem;color:rgba(255,255,255,.7);">🎙️ Speaking</td><td style="border:none;color:rgba(255,255,255,.7);font-size:.84rem;">25 marks · 15 min · Examiner review</td></tr>
+    </table>
+    <div style="margin-top:.8rem;font-size:.74rem;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.08);padding-top:.8rem;">
+      CEFR levels: Elementary (A1) · Basic (A2–B1) · Intermediate (B1–B2) · Advanced (C1–C2)
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer"><strong>HELT · HopeBridge English Language Test</strong> · Version 2025.1 · CEFR-Aligned International Assessment</footer>
+
+<div id="loading"><div class="spin"></div><p>Processing registration…</p></div>
+
+<script src="js/utils.js"></script>
+<script>
+// ── SELFIE CAM ──────────────────────────────────────────────
+let stream=null, selfieDataUrl=null;
+const vid=document.getElementById('selfie-video');
+const cvs=document.getElementById('selfie-canvas');
+const prv=document.getElementById('selfie-preview');
+const camMsg=document.getElementById('cam-msg');
+const openBtn=document.getElementById('openCam');
+const capBtn=document.getElementById('captureSelfie');
+const retakeBtn=document.getElementById('retakeSelfie');
+const fileInp=document.getElementById('selfie-file');
+const uploadBtn=document.getElementById('uploadSelfie');
+
+openBtn.addEventListener('click', async()=>{
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    vid.srcObject=stream; vid.style.display='block';
+    camMsg.style.display='none'; openBtn.classList.add('hidden');
+    capBtn.classList.remove('hidden');
+  }catch{ fileInp.click(); }
+});
+
+capBtn.addEventListener('click', ()=>{
+  const ctx=cvs.getContext('2d');
+  cvs.width=vid.videoWidth||480; cvs.height=vid.videoHeight||360;
+  ctx.drawImage(vid,0,0);
+  selfieDataUrl=cvs.toDataURL('image/jpeg',.88);
+  prv.src=selfieDataUrl; prv.style.display='block';
+  vid.style.display='none';
+  capBtn.classList.add('hidden'); retakeBtn.classList.remove('hidden');
+  uploadBtn.style.display='none';
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+  document.getElementById('selfie-err').classList.remove('show');
+});
+
+retakeBtn.addEventListener('click',()=>{
+  selfieDataUrl=null; prv.style.display='none'; prv.src='';
+  retakeBtn.classList.add('hidden'); openBtn.classList.remove('hidden');
+  camMsg.style.display='block'; uploadBtn.style.display='';
+});
+
+uploadBtn.addEventListener('click',()=>fileInp.click());
+fileInp.addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    selfieDataUrl=ev.target.result; prv.src=selfieDataUrl; prv.style.display='block';
+    camMsg.style.display='none'; openBtn.classList.add('hidden');
+    retakeBtn.classList.remove('hidden'); capBtn.classList.add('hidden');
+    document.getElementById('selfie-err').classList.remove('show');
+  };
+  r.readAsDataURL(f);
+});
+
+// ── FORM SUBMIT ──────────────────────────────────────────────
+document.getElementById('reg-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  let ok=validateForm(this);
+
+  if(!selfieDataUrl){
+    const el=document.getElementById('selfie-err');
+    el.textContent='Please capture or upload your identity photo.';
+    el.classList.add('show'); ok=false;
+  }
+  if(!document.getElementById('consent').checked||!document.getElementById('consent2').checked){
+    const el=document.getElementById('consent-err');
+    el.textContent='Please confirm both declarations to proceed.';
+    el.classList.add('show'); ok=false;
+  } else { document.getElementById('consent-err').classList.remove('show'); }
+
+  if(!ok) return;
+
+  showLoad('Preparing your examination…');
+
+  const setIdx = Math.floor(Date.now()/1000) % 3;
+  const examId = makeExamId();
+
+  const candidate={
+    fullName:  document.getElementById('fullName').value.trim(),
+    fatherName:document.getElementById('fatherName').value.trim(),
+    email:     document.getElementById('email').value.trim(),
+    idNumber:  document.getElementById('idNumber').value.trim(),
+    selfie:    selfieDataUrl,
+    examId, setIdx,
+    registeredAt: new Date().toISOString()
+  };
+
+  S.set('candidate',  candidate);
+  S.set('qSetIdx',    setIdx);
+  S.set('examId',     examId);
+  S.set('tabSwitches',0);
+
+  setTimeout(()=>{ hideLoad(); window.location.href='rules.html'; }, 800);
+});
+
+document.querySelectorAll('.fi').forEach(i=>i.addEventListener('blur',()=>validateField(i)));
+</script>
+</body>
+</html>

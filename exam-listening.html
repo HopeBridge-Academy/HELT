@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Section III: Listening — HELT</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+body{user-select:none;}
+.play-count-pip{width:14px;height:14px;border-radius:50%;border:2px solid var(--gold);}
+.play-count-pip.used{background:var(--gold);}
+.q-locked{filter:blur(3px);pointer-events:none;transition:filter .4s;}
+.q-locked.open{filter:none;pointer-events:all;}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-title"><strong>HELT</strong><span>Section III — Listening</span></div>
+  </div>
+  <div class="h-center">🎧 Listening · 25 Marks</div>
+  <div class="h-right"><div class="h-name" id="hdr-name">—</div><div class="h-id" id="hdr-id">—</div></div>
+</header>
+
+<div class="t-bar">
+  <div class="t-section"><div class="t-section-dot"></div>Section III of IV — Listening Comprehension</div>
+  <div class="t-timer"><div class="t-label">Time Remaining</div><div class="t-value" id="t-val">20:00</div></div>
+  <div class="t-info">Q <span id="q-cur">—</span> of <span id="q-tot">5</span></div>
+</div>
+<div class="t-progress"><div class="t-progress-fill" id="t-fill" style="width:100%;"></div></div>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Register</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Rules</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Writing</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Reading</div></div>
+    <div class="step active"><div class="step-dot">5</div><div class="step-lbl">Listening</div></div>
+    <div class="step"><div class="step-dot">6</div><div class="step-lbl">Speaking</div></div>
+    <div class="step"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <!-- AUDIO STAGE -->
+  <div class="audio-stage mb3">
+    <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);font-weight:700;margin-bottom:.4rem;">🎧 Academic Listening Passage</div>
+    <p style="color:rgba(255,255,255,.6);font-size:.84rem;margin-bottom:.8rem;" id="audio-instruction">
+      Listen carefully. You may play the audio up to <strong style="color:var(--gold);">2 times</strong> before the questions unlock. After 2 plays, the audio is locked permanently.
+    </p>
+
+    <!-- Play count indicators -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:.6rem;">
+      <span style="font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;">Plays used:</span>
+      <div style="display:flex;gap:.4rem;" id="pip-row">
+        <div class="play-count-pip" id="pip0"></div>
+        <div class="play-count-pip" id="pip1"></div>
+      </div>
+      <div class="play-counter" id="plays-left">0 / 2 played</div>
+    </div>
+
+    <button class="play-btn" id="play-btn" title="Play audio">▶</button>
+
+    <div class="listen-progress"><div class="listen-progress-fill" id="audio-prog"></div></div>
+    <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-top:.2rem;font-family:var(--font-m);" id="audio-status">Ready — press play to begin</div>
+
+    <div class="alert alert-dark mt2" style="font-size:.78rem;text-align:left;max-width:480px;margin:1rem auto 0;">
+      <span class="alert-icon">🔒</span>
+      <div>Questions unlock automatically after your <strong>first complete listen</strong>. After <strong>2 plays</strong> the audio is permanently disabled and you must proceed to the questions.</div>
+    </div>
+  </div>
+
+  <!-- Q NAV -->
+  <div class="card card-sm mb3" style="padding:1rem 1.4rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem;">
+      <div><div class="s-label" style="margin:0;">Section III · Listening</div><div style="font-size:.8rem;color:var(--muted);">Answer after listening. One question at a time. No going back.</div></div>
+      <div style="display:flex;gap:.4rem;"><span class="badge badge-gold">25 Marks</span><span class="badge badge-ink">5 × 5 pts</span></div>
+    </div>
+    <div class="q-dots" id="q-dots"></div>
+  </div>
+
+  <!-- QUESTIONS (locked until first audio play completes) -->
+  <div id="lock-notice" style="text-align:center;padding:2rem;color:var(--muted);font-size:.9rem;">
+    🔒 Questions will appear here after you listen to the audio above.
+  </div>
+  <div id="q-container" class="q-locked"></div>
+
+  <div id="done-box" style="display:none;">
+    <div class="card card-dark tc">
+      <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+      <div style="font-family:var(--font-d);font-size:1.2rem;color:var(--gold);">Listening Complete</div>
+      <p style="color:rgba(255,255,255,.6);font-size:.86rem;margin:1rem 0;">All questions answered. Proceeding to Speaking…</p>
+      <button class="btn btn-gold" id="go-speak">Continue to Speaking →</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer no-print"><strong>HELT</strong> · Section III: Listening</footer>
+<div id="loading"><div class="spin"></div><p>Processing…</p></div>
+
+<script src="js/utils.js"></script>
+<script src="js/questions.js"></script>
+<script>
+const cand=getCandidate();
+if(!cand.fullName||!S.get('examStarted')) window.location.href='index.html';
+lockExam();
+startScreenRecording();
+
+document.getElementById('hdr-name').textContent=cand.fullName;
+document.getElementById('hdr-id').textContent=cand.examId;
+
+const qSet=getQSet();
+const Qs=qSet.listening.questions;
+document.getElementById('q-tot').textContent=Qs.length;
+
+// Build nav dots
+const dotsEl=document.getElementById('q-dots');
+Qs.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='q-dot'; d.id=`dot-${i}`; d.textContent=i+1;
+  dotsEl.appendChild(d);
+});
+
+// ── AUDIO (TTS with 2-play limit) ─────────────────────────
+let playsUsed=0;
+const MAX_PLAYS=2;
+let ttsPlaying=false;
+let firstPlayDone=false;
+let progressInterval=null;
+
+const playBtn=document.getElementById('play-btn');
+const audioStatus=document.getElementById('audio-status');
+const audioProg=document.getElementById('audio-prog');
+const playsLeftEl=document.getElementById('plays-left');
+
+function updatePips(){
+  document.getElementById('pip0').classList.toggle('used', playsUsed>=1);
+  document.getElementById('pip1').classList.toggle('used', playsUsed>=2);
+  playsLeftEl.textContent=`${playsUsed} / 2 played`;
+}
+
+function lockAudio(){
+  playBtn.disabled=true;
+  playBtn.title='Maximum plays reached';
+  playBtn.style.opacity='.35';
+  playBtn.textContent='🔒';
+  document.getElementById('audio-instruction').textContent='Audio limit reached (2/2). Proceed to the questions below.';
+}
+
+function unlockQuestions(){
+  document.getElementById('lock-notice').style.display='none';
+  const qc=document.getElementById('q-container');
+  qc.classList.add('open');
+  qc.classList.remove('q-locked');
+  if(cur===0) renderQ(0);
+}
+
+playBtn.addEventListener('click',()=>{
+  if(ttsPlaying||playsUsed>=MAX_PLAYS) return;
+
+  ttsPlaying=true;
+  playsUsed++;
+  updatePips();
+
+  playBtn.textContent='⏸';
+  playBtn.disabled=true;
+  audioStatus.textContent=`▶ Playing (listen ${playsUsed}/${MAX_PLAYS})…`;
+  audioProg.style.width='0%';
+
+  const utt=new SpeechSynthesisUtterance(qSet.listening.transcript);
+  utt.lang='en-GB'; utt.rate=0.9; utt.pitch=1;
+
+  // Progress bar simulation
+  clearInterval(progressInterval);
+  let elapsed=0;
+  const est=qSet.listening.transcript.length*62; // ms
+  progressInterval=setInterval(()=>{
+    elapsed+=400;
+    audioProg.style.width=Math.min(99,(elapsed/est)*100)+'%';
+  },400);
+
+  utt.onend=()=>{
+    clearInterval(progressInterval);
+    audioProg.style.width='100%';
+    ttsPlaying=false;
+
+    if(!firstPlayDone){
+      firstPlayDone=true;
+      unlockQuestions();
+    }
+
+    if(playsUsed>=MAX_PLAYS){
+      lockAudio();
+      audioStatus.textContent='✅ Audio limit reached. Answer the questions below.';
+    } else {
+      playBtn.disabled=false;
+      playBtn.textContent='▶';
+      audioStatus.textContent=`✅ Play ${playsUsed} complete. You may play once more.`;
+    }
+  };
+
+  utt.onerror=()=>{
+    clearInterval(progressInterval);
+    ttsPlaying=false;
+    audioStatus.textContent='⚠ Audio error — questions unlocked automatically.';
+    if(!firstPlayDone){ firstPlayDone=true; unlockQuestions(); }
+    if(playsUsed>=MAX_PLAYS) lockAudio();
+    else { playBtn.disabled=false; playBtn.textContent='▶'; }
+  };
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utt);
+});
+
+// ── QUESTIONS ──────────────────────────────────────────────
+let cur=0;
+const answers=new Array(Qs.length).fill(null);
+
+function renderQ(idx){
+  document.getElementById('q-cur').textContent=idx+1;
+  Qs.forEach((_,i)=>{
+    const d=document.getElementById(`dot-${i}`);
+    d.className='q-dot'+(answers[i]!==null?' ans':'')+(i===idx?' cur':'');
+  });
+
+  const q=Qs[idx];
+  document.getElementById('q-container').innerHTML=`
+    <div class="card">
+      <div class="s-label">Question ${idx+1} of ${Qs.length}</div>
+      <div style="font-size:1rem;color:var(--text);line-height:1.65;margin-bottom:1.2rem;font-weight:500;">${q.text}</div>
+      <div class="mcq">
+        ${q.options.map((o,oi)=>`
+          <label class="mcq-opt" id="lo${idx}-${oi}">
+            <input type="radio" name="lq${idx}" value="${oi}"/>
+            <span class="opt-k">${String.fromCharCode(65+oi)}</span>
+            <span style="line-height:1.5;">${o}</span>
+          </label>`).join('')}
+      </div>
+      <div class="mt3">
+        <button class="btn btn-gold btn-full" id="next-btn" disabled>
+          ${idx<Qs.length-1?'Next Question →':'Submit Listening →'}
+        </button>
+      </div>
+      <p style="font-size:.72rem;color:var(--err);margin-top:.5rem;text-align:center;">⚠ You cannot return to a previous question.</p>
+    </div>`;
+
+  document.querySelectorAll('.mcq-opt').forEach(lbl=>{
+    lbl.addEventListener('click',()=>{
+      const v=parseInt(lbl.querySelector('input').value);
+      document.querySelectorAll('.mcq-opt').forEach(l=>l.classList.remove('sel'));
+      lbl.classList.add('sel'); lbl.querySelector('input').checked=true;
+      answers[idx]=v;
+      document.getElementById('next-btn').disabled=false;
+    });
+  });
+
+  document.getElementById('next-btn').addEventListener('click',()=>{
+    document.getElementById(`dot-${idx}`).classList.add('ans');
+    if(idx<Qs.length-1){ cur++; renderQ(cur); }
+    else finish();
+  });
+}
+
+// ── TIMER ──────────────────────────────────────────────────
+const T=new Timer({
+  sec:20*60, warnAt:120,
+  onTick:updateTimerUI,
+  onEnd:()=>finish(true)
+});
+T.start();
+
+function finish(expired=false){
+  T.stop();
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  clearInterval(progressInterval);
+
+  let correct=0;
+  answers.forEach((a,i)=>{ if(a===Qs[i].answer) correct++; });
+  const score=correct*5;
+
+  // Store internally — never shown to candidate
+  S.set('lScore',  score);
+  S.set('lCorrect',correct);
+  S.set('lAnswers',answers);
+
+  document.getElementById('q-container').style.display='none';
+  document.getElementById('lock-notice').style.display='none';
+  const box=document.getElementById('done-box'); box.style.display='block';
+
+  const goBtn=document.getElementById('go-speak');
+  let cd=5;
+  const iv=setInterval(()=>{
+    cd--; goBtn.textContent=`Continue to Speaking (${cd}s) →`;
+    if(cd<=0){ clearInterval(iv); window.location.href='exam-speaking.html'; }
+  },1000);
+  goBtn.addEventListener('click',()=>{ clearInterval(iv); window.location.href='exam-speaking.html'; });
+}
+</script>
+</body>
+</html>

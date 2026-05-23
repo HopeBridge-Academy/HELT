@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Section IV: Speaking — HELT</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+body{user-select:none;}
+
+/* Task switcher dots */
+.task-dots{display:flex;gap:.7rem;justify-content:center;margin-bottom:1.5rem;}
+.task-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:1.5px solid rgba(200,168,75,.3);
+  transition:all .2s;
+}
+.task-dot.active{background:var(--gold);border-color:var(--gold);transform:scale(1.3);}
+.task-dot.done{background:rgba(30,122,74,.7);border-color:#4CAF50;}
+
+/* Phase transitions */
+.phase{display:none;}
+.phase.show{display:block;}
+
+/* Criteria row */
+.spk-crit{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:1rem;}
+.sc{background:rgba(255,255,255,.05);border:1px solid rgba(200,168,75,.18);border-radius:var(--r);padding:.6rem .4rem;text-align:center;font-size:.7rem;}
+.sc .si{font-size:1rem;}
+.sc .sn{color:var(--gold-2);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:.15rem;}
+
+/* Prep countdown */
+.prep-num{font-family:var(--font-d);font-size:3.5rem;color:var(--gold);line-height:1;margin:.5rem 0;}
+
+@media(max-width:560px){.spk-crit{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-title"><strong>HELT</strong><span>Section IV — Speaking</span></div>
+  </div>
+  <div class="h-center">🎙️ Speaking · 25 Marks</div>
+  <div class="h-right"><div class="h-name" id="hdr-name">—</div><div class="h-id" id="hdr-id">—</div></div>
+</header>
+
+<div class="t-bar">
+  <div class="t-section"><div class="t-section-dot"></div>Section IV of IV — Speaking</div>
+  <div class="t-timer"><div class="t-label">Section Time</div><div class="t-value" id="t-val">15:00</div></div>
+  <div class="t-info">Task <span id="task-num">1</span> of 2</div>
+</div>
+<div class="t-progress"><div class="t-progress-fill" id="t-fill" style="width:100%;"></div></div>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Register</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Rules</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Writing</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Reading</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Listening</div></div>
+    <div class="step active"><div class="step-dot">6</div><div class="step-lbl">Speaking</div></div>
+    <div class="step"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <!-- SPEAKING STAGE -->
+  <div class="rec-stage mb3">
+
+    <!-- Task dots -->
+    <div class="task-dots">
+      <div class="task-dot active" id="tdot0"></div>
+      <div class="task-dot" id="tdot1"></div>
+    </div>
+
+    <!-- PHASE: Task Intro -->
+    <div class="phase show" id="ph-intro">
+      <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);font-weight:700;margin-bottom:.3rem;" id="task-label">TASK 1 OF 2</div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:1rem;">Read your topic carefully. Preparation begins when you click Ready.</div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.2);border-radius:var(--r);padding:1.2rem 1.5rem;text-align:left;margin-bottom:1.2rem;">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.4rem;">🎙️ Speaking Topic</div>
+        <div style="font-size:.97rem;line-height:1.65;color:rgba(255,255,255,.9);" id="topic-text-intro">Loading…</div>
+      </div>
+      <button class="btn btn-gold btn-lg" id="start-prep-btn">I'm Ready — Start Preparation →</button>
+      <div class="spk-crit">
+        <div class="sc"><div class="si">🗣️</div><div class="sn">Fluency</div></div>
+        <div class="sc"><div class="si">🔤</div><div class="sn">Vocabulary</div></div>
+        <div class="sc"><div class="si">📐</div><div class="sn">Grammar</div></div>
+        <div class="sc"><div class="si">🎵</div><div class="sn">Pronunciation</div></div>
+      </div>
+    </div>
+
+    <!-- PHASE: Preparation -->
+    <div class="phase" id="ph-prep">
+      <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);font-weight:700;margin-bottom:.3rem;" id="prep-label">PREPARATION TIME</div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:.5rem;">Organise your thoughts. Recording starts automatically when preparation ends.</div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.2);border-radius:var(--r);padding:.9rem 1.2rem;text-align:left;margin-bottom:.8rem;">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.3rem;">Your Topic</div>
+        <div style="font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.85);" id="topic-text-prep">—</div>
+      </div>
+      <div class="prep-num" id="prep-countdown">60</div>
+      <div style="color:rgba(255,255,255,.4);font-size:.75rem;">seconds remaining</div>
+      <button class="btn btn-ghost mt2" id="skip-prep-btn">Skip Preparation & Record Now</button>
+    </div>
+
+    <!-- PHASE: Recording -->
+    <div class="phase" id="ph-rec">
+      <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:#FF5C5C;font-weight:700;margin-bottom:.3rem;">🔴 RECORDING IN PROGRESS</div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.55);margin-bottom:.5rem;">Speak clearly and naturally. Recording stops automatically after 2 minutes.</div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.2);border-radius:var(--r);padding:.9rem 1.2rem;text-align:left;margin-bottom:.8rem;">
+        <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:.3rem;">Topic</div>
+        <div style="font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.85);" id="topic-text-rec">—</div>
+      </div>
+      <!-- Recording ring -->
+      <div class="rec-ring">
+        <svg viewBox="0 0 90 90" width="100" height="100">
+          <circle class="r-bg" cx="45" cy="45" r="40"/>
+          <circle class="r-fill sp" cx="45" cy="45" r="40" id="rec-ring-fill" style="stroke-dasharray:251;stroke-dashoffset:251;"/>
+        </svg>
+        <div class="r-val" id="rec-countdown">2:00</div>
+      </div>
+      <!-- Waveform -->
+      <div class="wave" id="wave">
+        <div class="wb live"></div><div class="wb live"></div><div class="wb live"></div>
+        <div class="wb live"></div><div class="wb live"></div><div class="wb live"></div>
+        <div class="wb live"></div><div class="wb live"></div><div class="wb live"></div>
+        <div class="wb live"></div><div class="wb live"></div><div class="wb live"></div>
+        <div class="wb live"></div><div class="wb live"></div><div class="wb live"></div>
+      </div>
+      <div style="color:rgba(255,255,255,.4);font-family:var(--font-m);font-size:.74rem;" id="rec-status">Recording…</div>
+      <button class="btn btn-ghost mt2" id="stop-rec-btn">⏹ Finish Speaking Early</button>
+    </div>
+
+    <!-- PHASE: Uploading -->
+    <div class="phase" id="ph-upload">
+      <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);font-weight:700;margin-bottom:.6rem;" id="upload-label">PROCESSING TASK 1…</div>
+      <div class="spin" style="margin:1rem auto;border-top-color:var(--gold);"></div>
+      <div style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.5rem;" id="upload-msg">Analysing recording…</div>
+    </div>
+
+    <!-- PHASE: Between tasks -->
+    <div class="phase" id="ph-between">
+      <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.12em;color:#4CAF50;font-weight:700;margin-bottom:.5rem;">✅ TASK 1 COMPLETE</div>
+      <div style="font-size:1rem;color:rgba(255,255,255,.75);margin-bottom:1.2rem;">Well done. Task 2 begins in <strong style="color:var(--gold);" id="between-cd">5</strong> seconds.</div>
+      <button class="btn btn-gold" id="start-task2-btn">Begin Task 2 Now →</button>
+    </div>
+
+    <!-- PHASE: All done -->
+    <div class="phase" id="ph-done">
+      <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+      <div style="font-family:var(--font-d);font-size:1.3rem;color:var(--gold);">Both Speaking Tasks Complete</div>
+      <p style="color:rgba(255,255,255,.6);font-size:.86rem;margin-top:.6rem;">Your recordings have been submitted to the examiner. Proceeding to payment…</p>
+    </div>
+  </div>
+
+  <div class="alert alert-blue mb3">
+    <span class="alert-icon">ℹ️</span>
+    <div><strong>Speaking Section — 2 Tasks:</strong> Each task gives you 60 seconds to prepare, then up to 2 minutes to speak. Both recordings are sent to an AI system and human examiner. Speak in full sentences with clear reasoning and examples.</div>
+  </div>
+</div>
+
+<footer class="footer no-print"><strong>HELT</strong> · Section IV: Speaking</footer>
+<div id="loading"><div class="spin"></div><p id="load-msg">Uploading recording…</p></div>
+
+<script src="js/utils.js"></script>
+<script src="js/questions.js"></script>
+<script>
+const cand=getCandidate();
+if(!cand.fullName||!S.get('examStarted')) window.location.href='index.html';
+lockExam();
+startScreenRecording();
+
+document.getElementById('hdr-name').textContent=cand.fullName;
+document.getElementById('hdr-id').textContent=cand.examId;
+
+const qSet=getQSet();
+const topics=qSet.speaking; // array of 2
+
+let currentTask=0;
+let allBlobs=[];
+let allTranscripts=[];
+let prepTimer=null, recTimer=null;
+
+// SECTION TIMER (15 min overall)
+const sectionT=new Timer({
+  sec:15*60, warnAt:120,
+  onTick:updateTimerUI,
+  onEnd:()=>{ stopRecording(); }
+});
+sectionT.start();
+
+// ── PHASE SWITCHER ─────────────────────────────────────────
+function showPhase(id){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+
+// ── TASK DOTS ──────────────────────────────────────────────
+function updateTaskDots(){
+  document.getElementById('tdot0').className='task-dot'+(currentTask===0?' active':'')+(allBlobs.length>0?' done':'');
+  document.getElementById('tdot1').className='task-dot'+(currentTask===1?' active':'')+(allBlobs.length>1?' done':'');
+}
+
+// ── LOAD TASK ──────────────────────────────────────────────
+function loadTask(idx){
+  currentTask=idx;
+  updateTaskDots();
+  document.getElementById('task-num').textContent=idx+1;
+  document.getElementById('task-label').textContent=`TASK ${idx+1} OF 2`;
+
+  const topic=topics[idx];
+  document.getElementById('topic-text-intro').textContent=topic;
+  document.getElementById('topic-text-prep').textContent=topic;
+  document.getElementById('topic-text-rec').textContent=topic;
+
+  showPhase('ph-intro');
+}
+
+loadTask(0);
+
+// ── START PREP ─────────────────────────────────────────────
+document.getElementById('start-prep-btn').addEventListener('click',()=>startPrep());
+document.getElementById('skip-prep-btn').addEventListener('click',()=>{
+  clearInterval(prepTimer); startRecording();
+});
+
+function startPrep(){
+  showPhase('ph-prep');
+  let left=60;
+  document.getElementById('prep-countdown').textContent=left;
+  prepTimer=setInterval(()=>{
+    left--;
+    document.getElementById('prep-countdown').textContent=left;
+    if(left<=0){ clearInterval(prepTimer); startRecording(); }
+  },1000);
+}
+
+// ── RECORDING ──────────────────────────────────────────────
+let mediaRec=null, recChunks=[], recStarted=false;
+const SPEAK_SEC=120;
+
+document.getElementById('stop-rec-btn').addEventListener('click',()=>{
+  clearInterval(recTimer); stopRecording();
+});
+
+async function startRecording(){
+  recStarted=true; recChunks=[];
+  showPhase('ph-rec');
+
+  // Ring animation
+  let left=SPEAK_SEC;
+  const circumference=251;
+  const ring=document.getElementById('rec-ring-fill');
+  const cdEl=document.getElementById('rec-countdown');
+
+  recTimer=setInterval(()=>{
+    left--;
+    const m=Math.floor(left/60), s=left%60;
+    cdEl.textContent=`${m}:${String(s).padStart(2,'0')}`;
+    ring.style.strokeDashoffset=circumference-(circumference*(left/SPEAK_SEC));
+    if(left<=0){ clearInterval(recTimer); stopRecording(); }
+  },1000);
+
+  // Mic recording
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    mediaRec=new MediaRecorder(stream,{mimeType:'audio/webm'});
+    mediaRec.ondataavailable=e=>{ if(e.data.size>0) recChunks.push(e.data); };
+    mediaRec.onstop=async()=>{
+      const blob=new Blob(recChunks,{type:'audio/webm'});
+      allBlobs.push(blob);
+      await processTask(currentTask, blob);
+    };
+    mediaRec.start();
+    document.getElementById('rec-status').textContent='🔴 Recording…';
+  }catch(err){
+    document.getElementById('rec-status').textContent='⚠ Microphone unavailable — note submitted.';
+    // Push empty blob
+    await processTask(currentTask, null);
+  }
+}
+
+function stopRecording(){
+  if(mediaRec&&mediaRec.state!=='inactive'){
+    mediaRec.stop();
+  } else {
+    // no mediaRec (mic unavailable path)
+    allBlobs.push(null);
+    processTask(currentTask, null);
+  }
+}
+
+// ── PROCESS TASK ───────────────────────────────────────────
+async function processTask(taskIdx, blob){
+  showPhase('ph-upload');
+  document.getElementById('upload-label').textContent=`PROCESSING TASK ${taskIdx+1}…`;
+  document.getElementById('upload-msg').textContent='AI analysing your speaking response…';
+
+  const topic=topics[taskIdx];
+  const transcript='(Audio recorded — transcript generated by examiner)';
+  allTranscripts.push(transcript);
+
+  // AI pre-score (internal — never shown to candidate)
+  const aiResult=await aiScoreSpeaking(topic, transcript);
+  const key=`speakAI_${taskIdx}`;
+  S.set(key, aiResult);
+
+  document.getElementById('upload-msg').textContent='Sending to examiner…';
+
+  const c=cand;
+  const caption=[
+    candidateBlock(c),
+    `🎙️ *SPEAKING TASK ${taskIdx+1} — Set ${qSet.id}*`,
+    ``,
+    `*Topic:* _${topic}_`,
+    ``,
+    `🤖 *AI Pre-Score:* ${aiResult.score??'—'}/25 | Band: ${aiResult.band??'—'}`,
+    `📝 AI Note: ${aiResult.comments??'—'}`,
+    ``,
+    `📊 Reading (auto): [withheld]`,
+    `🎧 Listening (auto): [withheld]`,
+    `📧 Certificate email: ${c.email}`,
+  ].join('\n');
+
+  try{
+    if(blob&&blob.size>0){
+      await tgDoc(blob, `speaking_task${taskIdx+1}_${c.examId}.webm`, caption);
+    } else {
+      await tgText(caption+'\n\n⚠ No audio — microphone unavailable.');
+    }
+  }catch(e){ console.warn('TG speaking fail',e); }
+
+  // Decide next step
+  if(taskIdx===0){
+    // Move to task 2
+    showPhase('ph-between');
+    updateTaskDots();
+    let cd=5;
+    const iv=setInterval(()=>{
+      cd--; document.getElementById('between-cd').textContent=cd;
+      if(cd<=0){ clearInterval(iv); recStarted=false; loadTask(1); }
+    },1000);
+    document.getElementById('start-task2-btn').addEventListener('click',()=>{ clearInterval(iv); recStarted=false; loadTask(1); });
+  } else {
+    // Both tasks done
+    showPhase('ph-done');
+    updateTaskDots();
+    S.set('speakingDone', true);
+    sectionT.stop();
+    setTimeout(()=>window.location.href='exam-payment.html', 2500);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payment — HELT</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.amount-display{
+  font-family:var(--font-d);
+  font-size:2.4rem;
+  color:var(--gold);
+  font-weight:700;
+  line-height:1;
+}
+.bank-num{
+  font-family:var(--font-m);
+  font-size:1.3rem;
+  color:var(--ink);
+  background:var(--ivory);
+  border:2px solid var(--gold);
+  border-radius:var(--r);
+  padding:.5rem 1.2rem;
+  display:inline-block;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:all .2s;
+}
+.bank-num:hover{background:var(--gold-pale);}
+.copy-tip{font-size:.72rem;color:var(--muted);margin-top:.3rem;}
+.receipt-preview{max-width:260px;max-height:200px;border-radius:var(--r);border:2px solid var(--gold);display:none;margin:.8rem auto 0;}
+</style>
+</head>
+<body>
+
+<header class="h-bar">
+  <div class="h-logo">
+    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-title"><strong>HELT</strong><span>Payment & Final Submission</span></div>
+  </div>
+  <div class="h-center" style="color:#4CAF50;">✅ Exam Complete</div>
+  <div class="h-right"><div class="h-name" id="hdr-name">—</div><div class="h-id" id="hdr-id">—</div></div>
+</header>
+
+<div class="t-bar" style="background:#0F2A0F;border-color:rgba(76,175,80,.3);">
+  <div class="t-section" style="color:#90EE90;"><div class="t-section-dot" style="background:#4CAF50;"></div>Step 7 of 8 — Payment</div>
+  <div style="font-size:.78rem;color:#90EE90;letter-spacing:.05em;">All 4 sections submitted successfully</div>
+  <div style="font-size:.7rem;color:rgba(255,255,255,.35);">Results within 2 working days</div>
+</div>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Register</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Rules</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Writing</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Reading</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Listening</div></div>
+    <div class="step done"><div class="step-dot">✓</div><div class="step-lbl">Speaking</div></div>
+    <div class="step active"><div class="step-dot">7</div><div class="step-lbl">Payment</div></div>
+    <div class="step"><div class="step-dot">✓</div><div class="step-lbl">Complete</div></div>
+  </div>
+
+  <div class="alert alert-green mb3">
+    <span class="alert-icon" style="font-size:1.3rem;">🎉</span>
+    <div><strong>Examination Complete!</strong> All four sections have been submitted. To receive your official results and certificate, complete the payment below and upload your proof of payment.</div>
+  </div>
+
+  <!-- IMPORTANT SCORE NOTICE -->
+  <div class="alert alert-gold mb3">
+    <span class="alert-icon">🔐</span>
+    <div><strong>Score Privacy:</strong> In line with HELT examination policy, no individual section scores are shown at this stage. All scores — including auto-graded sections — will be released together with your official result within 2 working days of confirmed payment.</div>
+  </div>
+
+  <!-- PAYMENT AMOUNT -->
+  <div class="card card-dark mb3">
+    <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.4rem;">Examination Fee</div>
+    <div class="amount-display">$5 USD &nbsp;/&nbsp; 300 AFN</div>
+    <div style="color:rgba(255,255,255,.45);font-size:.82rem;margin-top:.5rem;">
+      One-time fee · Payable via AFpay (HesabPay) or Ghazanfar Bank<br>
+      Reference: <span style="color:var(--gold);font-family:var(--font-m);font-size:.85rem;" id="pay-ref">—</span>
+    </div>
+  </div>
+
+  <!-- PAYMENT METHOD SELECT -->
+  <div class="card mb3">
+    <div class="s-label">Payment Method</div>
+    <div class="s-title" style="font-size:1.2rem;">Select How to Pay</div>
+    <div class="divider"></div>
+
+    <div class="pay-cards">
+      <div class="pay-card" id="pay-afpay" onclick="selectPay('afpay')">
+        <div class="pi">📱</div>
+        <div class="pn">AFpay / HesabPay</div>
+        <div class="ps">Scan QR barcode to pay</div>
+      </div>
+      <div class="pay-card" id="pay-ghaz" onclick="selectPay('ghazanfar')">
+        <div class="pi">🏦</div>
+        <div class="pn">Ghazanfar Bank</div>
+        <div class="ps">Bank transfer by account number</div>
+      </div>
+    </div>
+
+    <!-- AFpay detail -->
+    <div class="pay-detail" id="detail-afpay">
+      <div class="alert alert-blue mt2" style="font-size:.8rem;">
+        <span class="alert-icon">📱</span>
+        <div>Open your <strong>AFpay / HesabPay</strong> app and scan the QR code below. Amount: <strong>300 AFN / $5 USD</strong>.</div>
+      </div>
+      <div style="text-align:center;margin:1rem 0;">
+        <!-- SVG QR Code — Replace with official HesabPay QR in production -->
+        <svg width="190" height="190" viewBox="0 0 190 190" xmlns="http://www.w3.org/2000/svg" style="border:3px solid var(--gold);border-radius:8px;background:#fff;padding:6px;">
+          <rect x="0" y="0" width="190" height="190" fill="white"/>
+          <!-- TL finder -->
+          <rect x="10" y="10" width="52" height="52" fill="#0A1628"/><rect x="18" y="18" width="36" height="36" fill="white"/><rect x="25" y="25" width="22" height="22" fill="#0A1628"/>
+          <!-- TR finder -->
+          <rect x="128" y="10" width="52" height="52" fill="#0A1628"/><rect x="136" y="18" width="36" height="36" fill="white"/><rect x="143" y="25" width="22" height="22" fill="#0A1628"/>
+          <!-- BL finder -->
+          <rect x="10" y="128" width="52" height="52" fill="#0A1628"/><rect x="18" y="136" width="36" height="36" fill="white"/><rect x="25" y="143" width="22" height="22" fill="#0A1628"/>
+          <!-- Timing patterns -->
+          <rect x="72" y="10" width="7" height="7" fill="#0A1628"/><rect x="86" y="10" width="7" height="7" fill="#0A1628"/><rect x="100" y="10" width="7" height="7" fill="#0A1628"/><rect x="114" y="10" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="24" width="7" height="7" fill="#0A1628"/><rect x="100" y="24" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="38" width="7" height="7" fill="#0A1628"/><rect x="86" y="38" width="7" height="7" fill="#0A1628"/><rect x="100" y="38" width="7" height="7" fill="#0A1628"/><rect x="114" y="38" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="52" width="7" height="7" fill="#0A1628"/>
+          <!-- Data modules (decorative pattern) -->
+          <rect x="10" y="72" width="7" height="7" fill="#0A1628"/><rect x="24" y="72" width="7" height="7" fill="#0A1628"/><rect x="52" y="72" width="7" height="7" fill="#0A1628"/>
+          <rect x="10" y="86" width="7" height="7" fill="#0A1628"/><rect x="38" y="86" width="7" height="7" fill="#0A1628"/><rect x="52" y="86" width="7" height="7" fill="#0A1628"/>
+          <rect x="10" y="100" width="7" height="7" fill="#0A1628"/><rect x="24" y="100" width="7" height="7" fill="#0A1628"/><rect x="52" y="100" width="7" height="7" fill="#0A1628"/>
+          <rect x="10" y="114" width="7" height="7" fill="#0A1628"/><rect x="52" y="114" width="7" height="7" fill="#0A1628"/>
+          <rect x="128" y="72" width="7" height="7" fill="#0A1628"/><rect x="142" y="72" width="7" height="7" fill="#0A1628"/><rect x="170" y="72" width="7" height="7" fill="#0A1628"/>
+          <rect x="128" y="86" width="7" height="7" fill="#0A1628"/><rect x="156" y="86" width="7" height="7" fill="#0A1628"/>
+          <rect x="142" y="100" width="7" height="7" fill="#0A1628"/><rect x="170" y="100" width="7" height="7" fill="#0A1628"/>
+          <rect x="128" y="114" width="7" height="7" fill="#0A1628"/><rect x="142" y="114" width="7" height="7" fill="#0A1628"/><rect x="156" y="114" width="7" height="7" fill="#0A1628"/>
+          <!-- Center data -->
+          <rect x="72" y="72" width="7" height="7" fill="#0A1628"/><rect x="86" y="72" width="7" height="7" fill="#0A1628"/><rect x="100" y="72" width="7" height="7" fill="#0A1628"/><rect x="114" y="72" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="86" width="7" height="7" fill="#0A1628"/><rect x="114" y="86" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="100" width="7" height="7" fill="#0A1628"/><rect x="86" y="100" width="7" height="7" fill="#0A1628"/><rect x="100" y="100" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="114" width="7" height="7" fill="#0A1628"/><rect x="100" y="114" width="7" height="7" fill="#0A1628"/><rect x="114" y="114" width="7" height="7" fill="#0A1628"/>
+          <!-- Bottom rows -->
+          <rect x="72" y="128" width="7" height="7" fill="#0A1628"/><rect x="86" y="128" width="7" height="7" fill="#0A1628"/><rect x="114" y="128" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="142" width="7" height="7" fill="#0A1628"/><rect x="100" y="142" width="7" height="7" fill="#0A1628"/><rect x="114" y="142" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="156" width="7" height="7" fill="#0A1628"/><rect x="86" y="156" width="7" height="7" fill="#0A1628"/><rect x="100" y="156" width="7" height="7" fill="#0A1628"/>
+          <rect x="72" y="170" width="7" height="7" fill="#0A1628"/><rect x="114" y="170" width="7" height="7" fill="#0A1628"/>
+          <!-- Gold center mark -->
+          <rect x="87" y="87" width="16" height="16" rx="3" fill="#C8A84B"/>
+          <text x="95" y="98" text-anchor="middle" font-size="9" font-family="serif" font-weight="bold" fill="#0A1628">H</text>
+        </svg>
+        <div style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">AFpay / HesabPay · 300 AFN / $5</div>
+        <div class="alert alert-gold mt2" style="font-size:.76rem;text-align:left;">
+          <span>⚠️</span><div>This is a representative QR. Contact the HELT examination centre for the verified live payment QR code.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ghazanfar Bank detail -->
+    <div class="pay-detail" id="detail-ghaz">
+      <div class="alert alert-blue mt2" style="font-size:.8rem;">
+        <span class="alert-icon">🏦</span>
+        <div>Transfer <strong>300 AFN or $5 USD</strong> to the Ghazanfar Bank account below. <strong>Use your Exam ID as the payment reference.</strong></div>
+      </div>
+      <div style="text-align:center;margin:1.2rem 0;">
+        <div style="font-size:.72rem;text-transform:uppercase;color:var(--muted);letter-spacing:.07em;margin-bottom:.4rem;">Account Number</div>
+        <div class="bank-num" id="bank-num-el" onclick="copyBank()">I099520000097</div>
+        <div class="copy-tip">Click to copy account number</div>
+        <div style="margin-top:.8rem;font-size:.83rem;color:var(--text);">
+          Bank: <strong>Ghazanfar Bank</strong><br>
+          Reference / Note: <strong style="font-family:var(--font-m);" id="bank-ref">—</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECEIPT UPLOAD -->
+  <div class="card mb3">
+    <div class="s-label">Payment Proof</div>
+    <div class="s-title" style="font-size:1.2rem;">Upload Payment Receipt</div>
+    <div class="divider"></div>
+    <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem;">After completing your payment, upload a screenshot or photo of the transaction confirmation. This is required to process your results.</p>
+
+    <div class="upload-zone" id="receipt-zone" onclick="document.getElementById('receipt-inp').click()">
+      <div style="font-size:2rem;margin-bottom:.5rem;">📤</div>
+      <div style="font-weight:600;color:var(--ink);font-size:.9rem;">Click to upload payment screenshot or photo</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.3rem;">JPG · PNG · PDF · Max 10MB</div>
+      <img id="receipt-img" class="receipt-preview" alt="Receipt preview"/>
+    </div>
+    <input type="file" id="receipt-inp" accept="image/*,application/pdf" style="display:none;"/>
+    <div class="ferr show" id="receipt-err" style="display:none;"></div>
+
+    <div class="mt3">
+      <button class="btn btn-gold btn-lg btn-full" id="final-btn">📤 Submit Payment & Complete Examination</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer no-print"><strong>HELT · HopeBridge English Language Test</strong> · Payment & Submission</footer>
+<div id="loading"><div class="spin"></div><p id="load-msg">Sending payment proof to examiner…</p></div>
+
+<script src="js/utils.js"></script>
+<script src="js/questions.js"></script>
+<script>
+const cand=getCandidate();
+if(!cand.fullName) window.location.href='index.html';
+
+document.getElementById('hdr-name').textContent=cand.fullName;
+document.getElementById('hdr-id').textContent=cand.examId;
+document.getElementById('pay-ref').textContent=cand.examId;
+document.getElementById('bank-ref').textContent=cand.examId;
+
+// ── PAYMENT METHOD ──────────────────────────────────────────
+let payMethod=null;
+function selectPay(m){
+  payMethod=m;
+  document.getElementById('pay-afpay').classList.toggle('sel',m==='afpay');
+  document.getElementById('pay-ghaz').classList.toggle('sel',m==='ghazanfar');
+  document.getElementById('detail-afpay').classList.toggle('show',m==='afpay');
+  document.getElementById('detail-ghaz').classList.toggle('show',m==='ghazanfar');
+}
+
+function copyBank(){
+  navigator.clipboard.writeText('I099520000097').then(()=>{
+    const el=document.getElementById('bank-num-el');
+    el.textContent='✅ Copied!';
+    setTimeout(()=>el.textContent='I099520000097',2000);
+  });
+}
+
+// ── RECEIPT UPLOAD ──────────────────────────────────────────
+let receiptData=null, receiptBlob=null;
+document.getElementById('receipt-inp').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  receiptBlob=f;
+  const zone=document.getElementById('receipt-zone');
+  zone.classList.add('has-file');
+  const r=new FileReader();
+  r.onload=ev=>{
+    receiptData=ev.target.result;
+    const img=document.getElementById('receipt-img');
+    if(f.type.startsWith('image/')){ img.src=receiptData; img.style.display='block'; }
+    zone.querySelector('div:nth-child(2)').textContent=`✅ ${f.name}`;
+    document.getElementById('receipt-err').style.display='none';
+  };
+  r.readAsDataURL(f);
+});
+
+// ── FINAL SUBMIT ─────────────────────────────────────────────
+document.getElementById('final-btn').addEventListener('click', async()=>{
+  if(!payMethod){ alert('Please select a payment method.'); return; }
+  if(!receiptData){
+    const el=document.getElementById('receipt-err');
+    el.textContent='Please upload your payment receipt before submitting.';
+    el.style.display='block'; return;
+  }
+
+  showLoad('Sending payment proof to examiner…');
+
+  const c=cand;
+  const caption=[
+    candidateBlock(c),
+    `💳 *PAYMENT PROOF — ${payMethod==='afpay'?'AFpay/HesabPay':'Ghazanfar Bank'}*`,
+    ``,
+    `💰 *Amount:* $5 USD / 300 AFN`,
+    `📧 *Certificate Email:* ${c.email}`,
+    ``,
+    `📊 Reading: [Score withheld — released with final result]`,
+    `🎧 Listening: [Score withheld — released with final result]`,
+    `✍️ Writing: Pending examiner review`,
+    `🎙️ Speaking: Pending examiner review (2 tasks submitted)`,
+    ``,
+    `_Please verify payment and release final result with all scores._`
+  ].join('\n');
+
+  try{
+    if(receiptData&&receiptData.startsWith('data:image')){
+      await tgPhoto(receiptData, caption);
+    } else if(receiptBlob){
+      await tgDoc(receiptBlob,`payment_${c.examId}.pdf`,caption);
+    } else {
+      await tgText(caption);
+    }
+
+    // Also send screen recording blob if available
+    const scrBlob=getScreenBlob();
+    if(scrBlob&&scrBlob.size>0){
+      await tgDoc(scrBlob,`screen_rec_${c.examId}.webm`,`🖥️ Screen Recording — ${c.fullName} (${c.examId})`);
+    }
+    stopScreenRecording();
+  }catch(e){ console.warn('TG pay fail',e); }
+
+  S.set('paymentDone', true);
+  S.set('payMethod', payMethod);
+  hideLoad();
+  window.location.href='complete.html';
+});
+</script>
+</body>
+</html>
