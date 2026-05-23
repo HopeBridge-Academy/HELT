@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="16" fill="#0A1628"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#C8A84B" stroke-width="4"/>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#C8A84B" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <!-- H letter -->
+  <rect x="54" y="55" width="14" height="90" rx="4" fill="#C8A84B"/>
+  <rect x="93" y="80" width="14" height="40" rx="0" fill="#C8A84B"/>
+  <rect x="54" y="91" width="53" height="14" rx="0" fill="#C8A84B"/>
+  <rect x="133" y="55" width="14" height="90" rx="4" fill="#C8A84B"/>
+  <!-- Bridge arc under H -->
+  <path d="M 54 155 Q 100 125 147 155" fill="none" stroke="#C8A84B" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Stars -->
+  <circle cx="38" cy="100" r="3" fill="#C8A84B" opacity=".5"/>
+  <circle cx="162" cy="100" r="3" fill="#C8A84B" opacity=".5"/>
+  <circle cx="100" cy="26" r="3" fill="#C8A84B" opacity=".5"/>
+</svg>
