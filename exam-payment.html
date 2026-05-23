@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Payment — HELT</title>
-<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="style.css"/>
 <style>
 .amount-display{
   font-family:var(--font-d);
@@ -34,7 +34,7 @@
 
 <header class="h-bar">
   <div class="h-logo">
-    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-logo-img"><img src="logo.svg" alt="HELT Logo" onerror="this.src='logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
     <div class="h-title"><strong>HELT</strong><span>Payment & Final Submission</span></div>
   </div>
   <div class="h-center" style="color:#4CAF50;">✅ Exam Complete</div>
@@ -193,8 +193,8 @@
 <footer class="footer no-print"><strong>HELT · HopeBridge English Language Test</strong> · Payment & Submission</footer>
 <div id="loading"><div class="spin"></div><p id="load-msg">Sending payment proof to examiner…</p></div>
 
-<script src="js/utils.js"></script>
-<script src="js/questions.js"></script>
+<script src="utils.js"></script>
+<script src="questions.js"></script>
 <script>
 const cand=getCandidate();
 if(!cand.fullName) window.location.href='index.html';
