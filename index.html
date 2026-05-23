@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Register — HELT · HopeBridge English Language Test</title>
-<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="style.css"/>
 <style>
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:1.2rem;}
 .stat{background:rgba(255,255,255,.06);border:1px solid rgba(200,168,75,.18);border-radius:var(--r);padding:.9rem;text-align:center;}
@@ -17,7 +17,7 @@
   <div class="h-logo">
     <div class="h-logo-img" id="logo-wrap">
       <!-- Replace src with your logo file. If no image, the text fallback shows. -->
-      <img src="assets/logo.png" alt="HELT Logo" onerror="this.style.display='none';document.getElementById('logo-txt').style.display='flex';" style="width:100%;height:100%;object-fit:contain;"/>
+      <img src="logo.png" alt="HELT Logo" onerror="this.style.display='none';document.getElementById('logo-txt').style.display='flex';" style="width:100%;height:100%;object-fit:contain;"/>
       <div class="logo-placeholder" id="logo-txt" style="display:none;">H</div>
     </div>
     <div class="h-title">
@@ -158,7 +158,7 @@
 
 <div id="loading"><div class="spin"></div><p>Processing registration…</p></div>
 
-<script src="js/utils.js"></script>
+<script src="utils.js"></script>
 <script>
 // ── SELFIE CAM ──────────────────────────────────────────────
 let stream=null, selfieDataUrl=null;
