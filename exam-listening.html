@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Section III: Listening — HELT</title>
-<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="style.css"/>
 <style>
 body{user-select:none;}
 .play-count-pip{width:14px;height:14px;border-radius:50%;border:2px solid var(--gold);}
@@ -16,7 +16,7 @@ body{user-select:none;}
 
 <header class="h-bar">
   <div class="h-logo">
-    <div class="h-logo-img"><img src="assets/logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
+    <div class="h-logo-img"><img src="logo.svg" alt="HELT Logo" onerror="this.src='assets/logo.png';this.onerror=function(){this.style.display='none';this.parentElement.querySelector('.logo-placeholder').style.display='flex';};"/><div class="logo-placeholder" style="display:none;">H</div></div>
     <div class="h-title"><strong>HELT</strong><span>Section III — Listening</span></div>
   </div>
   <div class="h-center">🎧 Listening · 25 Marks</div>
@@ -98,8 +98,8 @@ body{user-select:none;}
 <footer class="footer no-print"><strong>HELT</strong> · Section III: Listening</footer>
 <div id="loading"><div class="spin"></div><p>Processing…</p></div>
 
-<script src="js/utils.js"></script>
-<script src="js/questions.js"></script>
+<script src="utils.js"></script>
+<script src="questions.js"></script>
 <script>
 const cand=getCandidate();
 if(!cand.fullName||!S.get('examStarted')) window.location.href='index.html';
